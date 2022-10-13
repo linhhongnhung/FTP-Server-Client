@@ -59,10 +59,7 @@ class ftp_controller:
                 self.max_len = len(name)
                 self.max_len_name = name
         return file_list
-
-    def get_detailed_search_file_list(self):
-        return self.detailed_search_file_list
-
+    
     def get_search_file_list(self):
         self.max_len = 0
         self.max_len_name = ''
@@ -71,102 +68,13 @@ class ftp_controller:
                 self.max_len = len(name)
                 self.max_len_name = name
         return self.search_file_list
-
-    def chmod(self, filename, permissions):
-        self.ftp.sendcmd('SITE CHMOD '+str(permissions)+' '+filename)
-
+   
     def is_there(self, path):
         try:
             self.ftp.sendcmd('MLST '+path)
-            return True;
+            return True
         except:
-            return False;
-
-    def rename_dir(self, rename_from, rename_to):
-        self.ftp.sendcmd('RNFR '+ rename_from)
-        self.ftp.sendcmd('RNTO '+ rename_to)    
-
-    def move_dir(self, rename_from, rename_to, status_command, replace_command):
-        if(self.is_there(rename_to) is True):
-            if(replace_command(rename_from, 'File/Folder exists in destination folder') is True):
-                self.delete_dir(rename_to, status_command)
-            else:
-                return
-        try:
-            self.ftp.sendcmd('RNFR '+ rename_from)
-            self.ftp.sendcmd('RNTO '+ rename_to)     
-            status_command(rename_from, 'Moved')
-        except:
-            status_command(rename_from, 'Failed to move')
-
-    def copy_file(self, file_dir, copy_from, file_size, status_command, replace_command):
-        #Change to script's directory (thay đổi thư mục)
-        abspath = os.path.abspath(__file__)
-        dname = os.path.dirname(abspath)
-        os.chdir(dname)
-        if not os.path.exists('copy_temps'):
-            os.makedirs('copy_temps')
-        os.chdir('copy_temps')
-        #Save the current path so that we can copy later (lưu đường dẫn hiện tại để sau đó ta có thể copy)
-        dir_path_to_copy = self.ftp.pwd()
-        #Change to the file's path and download it (chuyển đến đường dẫn tệp và download nó)
-        self.ftp.cwd(file_dir)
-        self.download_file(copy_from, file_size, status_command, replace_command)
-        #Change back to the saved path and upload it (trở lại đường dẫn đã lưu và upload nó)
-        self.ftp.cwd(dir_path_to_copy)
-        self.upload_file(copy_from, file_size, status_command, replace_command)
-        #Delete the downloaded file (xóa file download)
-        os.remove(copy_from)
-        status_command(copy_from, 'Deleted local file')
-
-    def copy_dir(self, file_dir, copy_from, status_command, replace_command):
-        #Change to script's directory (thay đổi thư mục)
-        abspath = os.path.abspath(__file__)
-        dname = os.path.dirname(abspath)
-        os.chdir(dname)
-        if not os.path.exists('copy_temps'):
-            os.makedirs('copy_temps')
-        os.chdir('copy_temps')
-        #Save the current path so that we can copy later (lưu đường dẫn hiện tại để sau đó ta có thể copy)
-        dir_path_to_copy = self.ftp.pwd()
-        #Change to the file's path and download it (chuyển đến đường dẫn tệp và download nó)
-        self.ftp.cwd(file_dir)
-        self.download_dir(copy_from, status_command, replace_command)
-        #Change back to the saved path and upload it (trở lại đường dẫn đã lưu và upload nó)
-        self.ftp.cwd(dir_path_to_copy)
-        self.upload_dir(copy_from, status_command, replace_command)
-        #Delete the downloaded folder (xóa file download)
-        shutil.rmtree(copy_from)
-        status_command(copy_from, 'Deleting local directory')
-
-    def delete_file(self, file_name, status_command):
-        try:
-            self.ftp.sendcmd('DELE '+file_name)
-            status_command(file_name, 'Deleted')
-        except:
-            status_command(file_name, 'Failed to delete')
-
-    def delete_dir(self, dir_name, status_command):
-        #Go into the directory (Đi đến thư mục)
-        self.ftp.cwd(dir_name)
-        #Get file lists (Lấy danh sách các file)
-        detailed_file_list = self.get_detailed_file_list(True)
-        file_list = self.get_file_list(detailed_file_list)
-        for file_name, file_details in zip(file_list, detailed_file_list):
-            #If directory (nếu là thư mục)
-            if(self.is_dir(file_details)):
-                self.delete_dir(file_name, status_command)
-            #If file (nếu là file)
-            else:
-                self.delete_file(file_name, status_command)
-        #Go back to parent directory and delete it (trở về thư mục mẹ và xóa nó)
-        try:
-            self.ftp.cwd('..')
-            status_command(dir_name, 'Deleting directory')
-            self.ftp.sendcmd('RMD '+dir_name)
-        except:
-            status_command(dir_name, 'Failed to delete directory')
-            return
+            return False
 
     def upload_file(self, file_name, file_size, status_command, replace_command):
         def update_progress(data):
@@ -277,58 +185,6 @@ class ftp_controller:
         #Got to parent directory (đã đến thư mục mẹ)
         self.ftp.cwd('..')
         os.chdir('..')
-
-    def search(self, dir_name, status_command, search_file_name):
-        #Go into the ftp directory (chuyển đến thư mục ftp)
-        self.ftp.cwd(dir_name)
-        #Get file lists (lấy danh sách file)
-        detailed_file_list = self.get_detailed_file_list()
-        file_list = self.get_file_list(detailed_file_list)
-        for file_name, file_details in zip(file_list, detailed_file_list):
-            #If file_name matches the keyword, append it to search list (nếu tên file match với từ khóa, thêm file vào danh sách search)
-            if search_file_name.lower() in file_name.lower():
-                if(self.ftp.pwd() == '/'):
-                    dir = ''
-                else:
-                    dir = self.ftp.pwd()
-                self.search_file_list.append(dir+'/'+file_name)
-                self.detailed_search_file_list.append(file_details)
-                status_command(dir+'/'+file_name, 'Found')           
-            #If directory, search it (nếu là thư mục, tìm nó)
-            if(self.is_dir(file_details)):
-                status_command(file_name, 'Searching directory')
-                self.search(file_name, status_command, search_file_name)
-        #Goto to parent directory (chuyển đến thư mục mẹ)
-        if(self.ftp.pwd() != '/'):
-            self.ftp.cwd('..')
-
-    def clear_search_list(self):
-        del self.search_file_list[:]
-        del self.detailed_search_file_list[:]
-
-    def get_dir_size(self, dir_name):
-        size = 0;
-        #Go into the ftp directory (chuyển đến thư mục ftp)
-        self.ftp.cwd(dir_name)
-        #Get file lists (lấy danh sách file)
-        detailed_file_list = self.get_detailed_file_list()
-        file_list = self.get_file_list(detailed_file_list)
-        for file_name, file_details in zip(file_list, detailed_file_list):
-            if(self.is_dir(file_details)):
-        	    size+=self.get_dir_size(file_name)
-            else:
-                size+=int(self.get_properties(file_details)[3])
-        #Goto to parent directory (chuyển đến thư mục mẹ)
-        self.ftp.cwd('..')
-        #return size (trả về size)
-       	return size
-
-    def cwd_parent(self, name):
-        if('/' not in name): return name
-        parent_name = '/'.join(name.split('/')[:-1])
-        if (parent_name == ''): parent_name = '/'
-        self.ftp.cwd(parent_name)
-        return ''.join(name.split('/')[-1:])
 
     def mkd(self, name):
         self.ftp.mkd(name)
