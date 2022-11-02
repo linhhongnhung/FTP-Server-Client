@@ -1,73 +1,95 @@
-# linhhongnhung.github.io
-<!DOCTYPE html>
-<html>
-    <!-- Phần đầu nè -->
-    <head>
-        <title>Nhun - Learning</title>
-        <meta charset="utf-8">
-        <!-- <style>
-            h1 {
-                color: blue;
-            }
-        </style> -->
-        <link rel="stylesheet" href="main.css">
-    </head>
-    
-    <!-- Phần thân  -->
-    <body>
-        <h1 id="a" title="Đây là title bài viết">Girls' Generation</h1>
-        <h1 class="b" title="Đây là title bài viết">Girls' Generation</h1>
-        <h1 class="b" title="Đây là title bài viết">Girls' Generation</h1>
-        <input type="text">
-        <input type="color">
-        <input type="checkbox">
-        <input type="checkbox">
-        <input type="checkbox">
-        <input name="favorite" type="email">
-        <input name="favorite" type="image">
-        <input name="favorite" type="password">
-        <input name="favorite" type="search">
-        <input name="favorite" type="{% load  %}">
-          
-        {% endcomment %}">
-        <input type="week">
-
-        <button>Mua hàng</button>
-
-        <p>Girls 'Generation ra mắt vào ngày 5 tháng 8 năm 2007, với đĩa đơn "Into the New World" từ album phòng thu đầu tay Girls' Generation. Nhóm bắt đầu trở nên nổi tiếng vào năm 2009 với đĩa đơn "Gee", chiếm vị trí quán quân trên Music Bank của KBS trong 9 tuần liên tiếp và là bài hát nổi tiếng nhất của Melon trong thập niên 2000.</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/220805_%EC%86%8C%EB%85%80%EC%8B%9C%EB%8C%80_%28SNSD%29.jpg/450px-220805_%EC%86%8C%EB%85%80%EC%8B%9C%EB%8C%80_%28SNSD%29.jpg" alt="SNSD">
-        <a href="https://vi.wikipedia.org/wiki/Girls%27_Generation">Đọc về SNSD nè</a>
-
-        <ol>
-            <li>Taeyeon</li>
-            <li>Jessica</li>
-            <li>Sunny</li>
-            <li>Tiffany</li>
-        </ol>
-
-        <table>
-            <thead>
-                <th>STT</th>
-                <th>Name</th>
-                <th>Year</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Taeyeon</td>
-                    <td>1989</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jessica</td>
-                    <td>1989</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Sunny</td>
-                    <td>1989</td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
-</html>
+<h1>
+    BÁO CÁO BÀI TẬP LỚN MÔN LẬP TRÌNH MẠNG
+    <br>
+    HỌC KỲ I  NĂM HỌC 2022  - 2023
+</h1>
+<p>Nhóm: [03][10]</p>
+<h2>1. Giới thiệu sơ lược chủ đề</h2>
+<h3>a.	Mục tiêu</h3>
+<ul>
+    <li>Xây dựng Giao thức truyền file FTP Server/Client</li>
+    <li>Ngôn ngữ lập trình: Python</li>
+    <li>Các chức năng:</li>
+        •	Kết nối server và client
+        <br>
+        •	Tạo folder mới
+        <br>
+        •	Upload file/folder
+        <br>
+        •	Download file/folder
+        <br>
+        •	Cut & Copy & Paste
+        <br>
+        •	Đến một địa chỉ (Go to a path)
+        <br>
+        •	Tìm kiếm file/folder
+        <br>
+        •	Trở về thư mục gốc
+        <br>
+</ul>
+<h3>b.	Kết quả đã đạt được</h3>
+<h3>c.	Hạn chế, hướng phát triển</h3>
+<h2>2. Tổng hợp công việc</h2>
+<table >
+    <thead>
+        <th>STT</th>
+        <th>MASV - Họ tên</th>
+        <th>Các nội dung thực hiện</th>
+        <th>Thể hiện</th>
+        <th>Ghi chú</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>B19DCCN632 - Khúc Chí Tuyền</td>
+            <td>
+             <li>[Từ ngày 4/10 - đến ngày 6/10]: Code hàm khởi chạy server </li>
+             <li>[Từ ngày 7/10 - đến ngày 12/10]: Code một số hàm xử lý của client</li> 
+             <li>[Từ ngày 13/10 - đến ngày 20/10]: Code giao diện cơ bản Kết nối Server và Server Terminal</li>
+             <li>[Từ ngày 21/10 - đến ngày 1/11]: Hoàn thành các hàm xử lý cơ bản của client </li>
+            </td>
+            <td>
+                <li>server_controller.py</li>
+                <li>client_controller.py</li>
+                <li>server_ui.py</li>
+                <li>client_controller.py</li>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>B19DCCN730 - Linh Hồng Nhung</td>
+            <td>
+             <li>[Từ ngày 1/10 - đến ngày 3/10]: Code giao diện server </li>
+             <li>[Từ ngày 4/10 - đến ngày 12/10]: Code giao diện tĩnh client</li> 
+             <li>[Từ ngày 13/10 - đến ngày 1/11]: Code các hàm xử lý tương tác trên giao diện client</li>
+            </td>
+            <td>
+                <li>server_ui.py</li>
+                <li>ftp_client.py, toolbar_button.py</li>
+                <li>ftp_client.py, toolbar_button.py, file_dialogs.py, pane_button.py, TkDND_wrapper.py</li>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<h2>3. Quá trình phát triển</h2>
+<table >
+    <thead>
+        <th>STT</th>
+        <th>Phiên bản</th>
+        <th>Vấn đề</th>
+        <th>Xử lý</th>
+        <th>Tự đánh giá</th>
+        <th>Người thực hiện</th>
+    </thead>   
+        <tr>
+            <td>1</td>
+            <td>1.0 02/11</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+</table>
+<h2>4. Mã nguồn</h2>
